@@ -3,12 +3,9 @@ Official PyTorch implementation of the paper "A Brand New Dance Partner:Music-Co
 
 
 ## Examples
-<video width="100%" height="100%" controls="controls">
-    <source src="images/demo.mp4" type="video/mp4">
-</video>
 
 ## Framework
-
+We propose MNET, a novel and scalable approach that can perform music-conditioned pluralistic dance generation synthesized by multiple dance genres using only a single model. Here, we learn a dance-genre aware latent representation by training a conditional generative adversarial network leveraging Transformer architecture.
 ![teaser](images/model.png)
 
 # Getting started
