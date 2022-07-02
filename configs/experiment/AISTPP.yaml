@@ -1,0 +1,115 @@
+# @package _global_
+
+# to execute this experiment run:
+# python train.py experiment=example
+
+defaults:
+  - override /trainer    : null
+  - override /datamodule : null
+  - override /model      : null
+  - override /callbacks  : null
+  - override /logger     : null
+
+# all parameters below will be merged with parameters from default configurations set above
+# this allows you to overwrite only specified parameters
+
+# name of the run determines folder name in logs
+name: "MNET"
+
+seed: 12345
+
+trainer:
+  _target_                  : pytorch_lightning.Trainer
+  gpus                      : 0
+  min_epochs                : 1
+  max_epochs                : 6000
+  auto_lr_find              : False
+
+  gradient_clip_val         : 0
+  accumulate_grad_batches   : 1
+  check_val_every_n_epoch   : 1000
+
+  weights_summary           : "top"
+  progress_bar_refresh_rate : 10
+
+  fast_dev_run              : False
+
+datamodule:
+  _target_         : src.datamodules.aist_datamodule.AISTPPDataModule
+  data_path        : ${data_dir}/AIST++
+  music_length     : ${model.gen_params.music_length}
+  seed_m_length    : ${model.gen_params.seed_m_length}
+  predict_length   : ${model.gen_params.predict_length}
+  train_test_split : [ 1368, 40 ]
+  batch_size       : 16
+  num_workers      : 16
+  pin_memory       : True
+
+model:
+  _target_  : src.models.aist_module.AISTLitModule
+
+  gen_params:
+    dim           : 768
+    depth         : 8
+    heads         : 12
+    mlp_dim       : 2048
+    music_length  : 120
+    seed_m_length : 60
+    predict_length: 30
+    rot_6d        : True
+
+  dis_params:
+    dim     : 768
+    depth   : 4
+    heads   : 12
+    mlp_dim : 2048
+    rot_6d  : ${model.gen_params.rot_6d}
+
+  loss_params:
+    loss_dict:
+      l_adv_loss : 1
+      l_rec_loss : 1
+      l_vet_loss : 1
+      l_div_loss : 0.5
+      l_sfc_loss : 1
+    rot_6d    : ${model.gen_params.rot_6d}
+    smpl_path : ${data_dir}/SMPL_DIR
+
+  optimizer:
+    type: AdamW
+    kwargs:
+      lr           : 1e-4
+      betas        : [0.9, 0.99]
+      weight_decay : 0
+
+  scheduler:
+    type: MultiStepLR
+    kwargs:
+      milestones : [400, 1000]
+      gamma      : 0.1
+
+callbacks:
+  model_checkpoint:
+    _target_            : pytorch_lightning.callbacks.ModelCheckpoint
+    dirpath             : "checkpoints/"
+    filename            : null
+    save_last           : True
+    save_top_k          : -1
+    every_n_train_steps : 10000
+
+  dance_generation:
+    _target_      : src.callbacks.dance_generation.DanceGeneration
+    data_path     : ${datamodule.data_path}
+    data_name     : gBR_sBM_cAll_d04_mBR0_ch01.pkl
+    seed_m_length : ${model.gen_params.seed_m_length}
+    play_time     : 10
+    num_sample    : 3
+    smpl_path     : ${data_dir}/SMPL_DIR
+
+logger:
+  tensorboard:
+    _target_          : pytorch_lightning.loggers.tensorboard.TensorBoardLogger
+    save_dir          : "tensorboard/"
+    name              : ${name}
+    log_graph         : False
+    default_hp_metric : False
