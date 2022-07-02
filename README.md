@@ -1,8 +1,6 @@
 # MNET
-Official PyTorch implementation of the paper "A Brand New Dance Partner:Music-Conditioned Pluralistic Dancing Synthesized by Multiple Dance Genres", CVPR 2022
-
-
-## Examples
+Official PyTorch implementation of the paper ["A Brand New Dance Partner:Music-Conditioned Pluralistic Dancing Synthesized by Multiple Dance Genres", CVPR 2022](https://openaccess.thecvf.com/content/CVPR2022/html/Kim_A_Brand_New_Dance_Partner_Music-Conditioned_Pluralistic_Dancing_Controlled_by_CVPR_2022_paper.html).
+Please visit our [website](https://jw09191.github.io/MNET_CVPR22/) for more details.
 
 ## Framework
 We propose MNET, a novel and scalable approach that can perform music-conditioned pluralistic dance generation synthesized by multiple dance genres using only a single model. Here, we learn a dance-genre aware latent representation by training a conditional generative adversarial network leveraging Transformer architecture.
@@ -19,7 +17,7 @@ conda create -n mnet python=3.8
 conda activate mnet
 
 # install requirements
-pip install -r requirements
+pip install -r requirements.txt
 ```
 
 ## 2. Download the datasets
