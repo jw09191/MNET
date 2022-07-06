@@ -42,7 +42,7 @@ python train.py experiment=AISTPP trainer.gpus=4 +trainer.strategy=ddp
 ```
 
 ### Pretrained models
-You can download pretrained models from [here](https://drive.google.com/drive/folders/1w75KhHhzhQXJY7R-fPQSVDvjR4iIfUiJ?usp=sharing) (Google Drive),
+You can download pretrained models from [here](https://drive.google.com/file/d/1oT8w6EtURFiC0mmre5Rrg3Ko4Qdns328/view?usp=sharing) (Google Drive),
 and move them to ``./logs/pretrain/`` folder.
 
 ### Visualization
