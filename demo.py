@@ -30,7 +30,7 @@ Genres = {
 
 
 def load_model(log_path, ckpt):
-    path = os.path.join('./logs/experiments/runs/MNET', log_path)
+    path = os.path.join('./logs', log_path)
     with open(os.path.join(path, '.hydra/config.yaml')) as f:
         config = yaml.load(f, Loader=yaml.FullLoader)
 
@@ -125,7 +125,7 @@ def main(args):
 
     smpl = SMPL(model_path='./data/SMPL_DIR', gender='MALE', batch_size=1).eval()
 
-    save_path = os.path.join('./logs/experiments/demos', args.log_path, args.type)
+    save_path = os.path.join('./logs/', args.log_path, 'demos', args.type)
     os.makedirs(save_path, exist_ok=True)
 
     model = model.to(device)

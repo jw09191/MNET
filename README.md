@@ -32,33 +32,32 @@ and copy the downloaded 'male' SMPL model to ``./data/AIST++/SMPL_DIR/`` folder.
 ### Training
 ```bash
 # train on CPU
-python train.py experiment=AIST++ trainer.gpus=0
+python train.py experiment=AISTPP trainer.gpus=0
 
 # train on single GPU
-python train.py experiment=AIST++ trainer.gpus=1
+python train.py experiment=AISTPP trainer.gpus=1
 
 # train with DDP (Distributed data Parallel) (4 GPUs)
-python train.py experiment=AIST++ trainer.gpus=4 +trainer.strategy=ddp
+python train.py experiment=AISTPP trainer.gpus=4 +trainer.strategy=ddp
 ```
 
 ### Pretrained models
 You can download pretrained models from [here](https://drive.google.com/drive/folders/1w75KhHhzhQXJY7R-fPQSVDvjR4iIfUiJ?usp=sharing) (Google Drive),
-and move them to ``./logs/`` folder.
+and move them to ``./logs/pretrain/`` folder.
 
 ### Visualization
-You can choose .pkl data from ``./data/AIST++/motions`` and the generated dance videos are saved in ``./logs/demo/`` folder.
+You can choose .pkl data from ``./data/AIST++/motions`` and the generated dance videos are saved in ``./logs/pretrain/demos/`` folder.
 #### Generate diverse dance
 ```bash
 # example
-python demo.py -l logs -p gBR_sBM_cAll_d04_mBR0_ch01.pkl -t diversity 
+python demo.py -l pretrain -p gBR_sBM_cAll_d04_mBR0_ch01.pkl -t diversity 
 ```
 
 #### Generate dance controlled by dance genre
 ```bash
 # example
-python demo.py -l logs -p gBR_sBM_cAll_d04_mBR0_ch01.pkl -t synthesis 
+python demo.py -l pretrain -p gBR_sBM_cAll_d04_mBR0_ch01.pkl -t synthesis 
 ```
-
 
 ## 4. Citation
     @InProceedings{Kim_2022_CVPR,
